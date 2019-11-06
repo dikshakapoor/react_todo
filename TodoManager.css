@@ -83,7 +83,9 @@ strong {
 
 /* Style the input fields */
 .inputfield {
-  width: 100%;
+  position: absolute;
+    margin-top: 50px;
+    width: 83%;
   padding: 10px;
   outline: none;
   border-radius: 15px;
@@ -98,6 +100,7 @@ strong {
 
 /* Set a style for the submit button */
 .addTaskButton {
+  margin-top: 100px;
   background-color: #79C4F0;
   color: white;
   padding: 15px 20px;

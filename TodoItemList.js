@@ -3,7 +3,7 @@ import React from "react";
 import completeButtonImg from "./_ionicons_svg_md-checkmark-circle.svg";
 import removeButtonImg from "./_ionicons_svg_md-trash.svg";
 import editButtonImg from "./_ionicons_svg_md-create.svg";
-class TodoItemList extends React.Component {
+class TodoItemList extends React.PureComponent {
     createTasks(items) {
         return <li key={items.key}> {items.text} </li>
     }

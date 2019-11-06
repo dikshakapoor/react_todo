@@ -1,42 +1,42 @@
 import React from 'react';
-import logo from './todo_logo.png';
 import './TodoManager.css';
-import TodoItemList from "./TodoItemList";
-
-
+import NavigationBar from "./NavigationBar";
+// import InputForm from "./InputForm";
+// import TodoItemList from "./TodoItemList";
 
 class TodoManager extends React.Component {
   constructor(props) {
     super(props)
-    this.addItem = this.addItem.bind(this);
-
+    // this.addItem = this.addItem.bind(this);
+    // let taskMap = new Map
     this.state = {
-      items: []
+      taskList: [],
+      currentInputValue: ""
     }
   }
 
-  addItem(e) {
-    let itemArray = this.state.items;
+  // addItem(e) {
+  //   let itemArray = this.state.items;
 
-    if (this._inputElement.value !== "") {
-      itemArray.unshift(
-        {
-          text: this._inputElement.value,
-          key: Date.now()
-        }
-      );
+  //   if (this._inputElement.value !== "") {
+  //     itemArray.unshift(
+  //       {
+  //         text: this._inputElement.value,
+  //         key: Date.now()
+  //       }
+  //     );
 
-      this.setState({
-        items: itemArray
-      });
-      console.log(this._inputElement.value);
-      console.log(this._inputElement.formTarget.value);
-      this._inputElement.value = "";
-    }
-    console.log(itemArray);
+  //     this.setState({
+  //       items: itemArray
+  //     });
+  //     console.log(this._inputElement.value);
+  //     console.log(this._inputElement.formTarget.value);
+  //     this._inputElement.value = "";
+  //   }
+  //   console.log(itemArray);
 
-    e.preventDefault();
-  }
+  //   e.preventDefault();
+  // }
 
   // deleteItem(key) {
   //   var filteredItems = this.state.items.filter(function (item) {
@@ -48,36 +48,66 @@ class TodoManager extends React.Component {
   //   });
   // }
 
+  createNewTask = () => {
+    const { taskList } = this.state;
+    console.log(taskList);
+  }
+
+  onFormSubmit = (event) => {
+    event.preventDefault();
+    const { taskList, currentInputValue } = this.state; // destructure
+    const newTask = {
+      key: Date.now(),
+      value: currentInputValue,
+    };
+    this.setState({
+      currentInputValue: '',
+      taskList: [...taskList, newTask],
+    }, this.createNewTask)
+    console.log(this.state.currentInputValue);
+  }
+  keyPressHandle = (event) => { // not working 
+
+    if (event.which === 13) {
+      this.handleInputChange();
+
+      console.log("working");
+    }
+  }
+
+
+  handleInputChange = (ev) => {
+    console.log(ev.target.value);
+    this.setState({
+
+      currentInputValue: ev.target.value,
+    })
+  }
 
   render() {
+    const { currentInputValue } = this.state;
     return (
       <div>
         <div className="container">
-          <div className="header">
-            <img className="logo" src={logo} style={{ width: "50px", height: "50px", radius: "2px" }} />
-            <div className="nav">
-              <ul>
-                <li className="navText"><div className="markAllComplete"> Mark All Complete </div></li>
-                <li className="navText"><div className="deleteAll"> Delete All</div></li>
-              </ul>
-            </div>
-          </div>
+          <NavigationBar />
           {/* <form onSubmit="return false"> */}
-          <form onSubmit={this.addItem}>
-            <h2>TODO LIST</h2>
-            <div className="input-container">
-              <input ref={(a) => {
-              this._inputElement = a;
-                console.log(a);
-              }} // a is event object
-                className="inputfield" type="text" placeholder="Type here.." />
-            </div>
-            <div className="wrapper">
-              <button className="addTaskButton"><strong>ADD </strong></button>
-            </div>
-          </form>
+          {/* <form onSubmit={this.onFormSubmit}> */}
+          <h2>TODO LIST</h2>
+          <div className="input-container">
+            <input
+              className="inputfield" type="text"
+              value={currentInputValue}
+              placeholder="Type here.."
+              onKeyPress={this.keyPressHandle}
+              onChange={this.handleInputChange}
+            />
+          </div>
+          <div className="wrapper">
+            <button onClick={this.onFormSubmit} className="addTaskButton"><strong>ADD </strong></button>
+          </div>
+          {/* </form> */}
           <ul className="taskList_wrapper">
-            <TodoItemList entries={this.state.items} />
+            {/* <TodoItemList entries={this.state} /> */}
 
           </ul>
         </div>
