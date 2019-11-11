@@ -144,7 +144,6 @@ form {
 
 .taskList_wrapper {
   position: absolute;
-  margin-top: 300px;
   overflow: scroll;
   height: 400px;
   width: 1200px;
