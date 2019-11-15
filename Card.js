@@ -8,14 +8,31 @@ class Card extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            taskList: [],
-            // currentInputValue: '',
+            editedTask: props.task.discription,
         }
     }
+
+    updateTask(event) {
+        const editedTask = event.target.value.trim();
+        this.setState({ editedTask })
+    }
+
+    keyPress = (event, id) => {
+        if (event.which === 13) {
+            const { editedTask } = this.state;
+            this.props.handleEditedTask(editedTask, id);
+        }
+    }
+
     taskDescription = (discription, completedTaskStatus, id, updatedTaskStatus) => {
+        const { editedTask } = this.state;
+
         if (updatedTaskStatus) {
             return (
-                <div className="updatedtask"><input value={this.state.editedTaskValue} className="editedTaskInput" onKeyPress={(event) => { this.props.handleUpdatedTask(event); this.props.handleEditedTask(event, id) }} /> </div>
+                <div className="updatedtask"><input value={editedTask} key={id} className="editedTaskInput"
+                    onChange={(event) => { this.updateTask(event) }}
+                    onKeyPress={(event) => { this.keyPress(event, id) }} />
+                </div>
             )
         }
         return (
@@ -35,7 +52,6 @@ class Card extends React.Component {
                     <img src={editButtonImg} alt="edit" style={{ width: "20px", heigth: "20px" }} /></button>
             </div>
         </div>
-
         )
     }
 }
